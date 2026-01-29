@@ -387,13 +387,6 @@
             background: #2980b9;
         }
 
-        /* Hide any external links and badges */
-        [class*="github"], [class*="badge"], [id*="github"], [id*="badge"],
-        .github-corner, #github-corner, a[href*="github"] {
-            display: none !important;
-            visibility: hidden !important;
-        }
-
         @media (min-width: 600px) {
             body {
                 padding: 20px;
@@ -431,12 +424,12 @@
             }
             
             html, body {
-                background: white;
-                padding: 0;
-                margin: 0;
-                width: 100%;
-                max-width: none;
-                height: auto;
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: none !important;
+                height: auto !important;
             }
             
             body {
@@ -444,31 +437,54 @@
                 -webkit-print-color-adjust: exact;
             }
             
-            .container {
-                box-shadow: none;
-                padding: 0;
-                max-width: none;
-                margin: 0;
-            }
-            
-            /* Hide all buttons and interactive elements */
-            .actions, .btn-add, .btn-remove, .logo-placeholder, .logo-upload {
-                display: none !important;
-                visibility: hidden !important;
-            }
-            
-            /* Hide any external links */
-            [class*="github"], [class*="badge"], [id*="github"], [id*="badge"],
-            .github-corner, #github-corner, a[href*="github"], footer, .footer {
+            /* CRITICAL: Hide everything after the invoice container */
+            body > *:not(.container) {
                 display: none !important;
                 visibility: hidden !important;
                 position: absolute !important;
                 left: -9999px !important;
+                height: 0 !important;
+                overflow: hidden !important;
             }
             
-            /* Remove page URL, date, and page numbers from print headers/footers */
-            @page {
-                margin: 10mm;
+            .container {
+                box-shadow: none !important;
+                padding: 0 !important;
+                max-width: none !important;
+                margin: 0 !important;
+            }
+            
+            /* Hide all buttons and interactive elements */
+            .actions, .btn-add, .btn-remove, .logo-placeholder, .logo-upload,
+            button, input[type="file"] {
+                display: none !important;
+                visibility: hidden !important;
+            }
+            
+            /* NUCLEAR OPTION: Hide any links, footers, badges, scripts */
+            a[href*="github"],
+            a[href*="badge"],
+            footer,
+            .footer,
+            #footer,
+            [class*="footer"],
+            [id*="footer"],
+            [class*="github"],
+            [class*="badge"],
+            [id*="github"],
+            [id*="badge"],
+            .github-corner,
+            #github-corner,
+            script,
+            noscript {
+                display: none !important;
+                visibility: hidden !important;
+                position: absolute !important;
+                left: -9999px !important;
+                width: 0 !important;
+                height: 0 !important;
+                overflow: hidden !important;
+                opacity: 0 !important;
             }
             
             /* Make inputs look like regular text */
@@ -669,11 +685,6 @@
         <div class="header">
             <div class="logo-section">
                 <div class="logo">
-                    <!-- Replace the src below with your logo image -->
-                    <!-- Option 1: Use direct URL (if accessible) -->
-                    <!-- <img src="https://i.imghippo.com/files/YUh6711lg.png" alt="Shop Turkey Logo"> -->
-                    
-                    <!-- Option 2: Upload your logo file and it will be converted to base64 -->
                     <div class="logo-text" id="logoDisplay">ST</div>
                     <input type="file" id="logoUpload" style="display:none" accept="image/*">
                 </div>
@@ -841,7 +852,7 @@
                     // Save to localStorage
                     localStorage.setItem('shopTurkeyLogo', event.target.result);
                     
-                    console.log('Logo uploaded and saved! You can now copy the base64 data from localStorage.');
+                    console.log('Logo uploaded and saved!');
                 };
                 reader.readAsDataURL(file);
             }
