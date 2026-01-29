@@ -521,14 +521,14 @@
         <div class="header">
             <div class="logo-section">
                 <div class="logo" onclick="document.getElementById('logoUpload').click()">
-                    <span id="logoText">YC</span>
+                    <span id="logoText">ST</span>
                     <div class="logo-placeholder">Click to upload</div>
                 </div>
                 <input type="file" id="logoUpload" class="logo-upload" accept="image/*" onchange="handleLogoUpload(event)">
                 <div class="company-info">
-                    <h1 contenteditable="true">Your Company Name</h1>
-                    <p contenteditable="true">Address, City, Pakistan</p>
-                    <p contenteditable="true">Phone: +92 XXX XXXXXXX</p>
+                    <h1>Shop Turkey</h1>
+                    <p>Faisalabad, Pakistan</p>
+                    <p>Instagram:_shopturkey</p>
                 </div>
             </div>
             <div class="invoice-title">
@@ -814,25 +814,26 @@
                 
                 buttons.forEach(btn => btn.style.display = '');
                 const imgData = canvas.toDataURL('image/png', 1.0);
-                const pdf = new jsPDF('p', 'mm', 'a4');
-
-                const pdfWidth = pdf.internal.pageSize.getWidth(); // 210mm
-                const pdfHeight = pdf.internal.pageSize.getHeight(); // 297mm
+                const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4',
+                compress: true
+                });
+                const pdfWidth = 210; // A4 width in mm
+                const pdfHeight = 297; // A4 height in mm
                 const canvasWidth = canvas.width;
                 const canvasHeight = canvas.height;
-
-               // Calculate scaling to fit A4 with margins
+                // Calculate scaling to fit A4 with margins
                 const marginTop = 10;
                 const marginBottom = 10;
                 const marginLeft = 10;
                 const marginRight = 10;
-
                 const availableWidth = pdfWidth - marginLeft - marginRight;
                 const availableHeight = pdfHeight - marginTop - marginBottom;
-
                 // Scale to fit width and height
-                const scaleX = availableWidth / (canvasWidth / 3);
-                const scaleY = availableHeight / (canvasHeight / 3);
+                const scaleX = availableWidth / (canvasWidth / 3.5);
+                const scaleY = availableHeight / (canvasHeight / 3.5);
                 const scale = Math.min(scaleX, scaleY);
 
                 const imgWidth = (canvasWidth / 3) * scale;
