@@ -47,8 +47,8 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            flex: 1;
-            min-width: 250px;
+            flex: 1 1 100%;
+            min-width: 0;
         }
 
         .logo {
@@ -58,53 +58,30 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 8px;
+            border-radius: 50%;
             border: 2px solid #ddd;
-            font-size: 24px;
-            color: #3498db;
-            font-weight: bold;
             flex-shrink: 0;
-            cursor: pointer;
-            position: relative;
             overflow: hidden;
+            padding: 8px;
         }
 
         .logo img {
             width: 100%;
             height: 100%;
             object-fit: contain;
+            object-position: center;
             display: block;
         }
 
-        .logo-upload {
-            display: none;
-        }
-
         .logo-text {
+            font-size: 24px;
+            color: #3498db;
+            font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
             height: 100%;
-        }
-
-        .logo-placeholder {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            font-size: 9px;
-            text-align: center;
-            padding: 3px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-weight: normal;
-        }
-
-        .logo:hover .logo-placeholder {
-            opacity: 1;
         }
 
         .company-info h1 {
@@ -121,17 +98,40 @@
 
         .invoice-title {
             text-align: right;
+            flex-shrink: 0;
+            width: 100%;
+            min-width: 0;
+            margin-top: 10px;
         }
 
         .invoice-title h2 {
             color: #2c3e50;
             font-size: 24px;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            text-align: right;
         }
 
-        .invoice-title p {
+        .invoice-title .date-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .invoice-title .date-label {
             color: #7f8c8d;
             font-size: 13px;
+            font-weight: 600;
+        }
+
+        .invoice-title input[type="date"] {
+            border: 1px solid #ddd;
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #2c3e50;
+            background: white;
         }
 
         .input-section {
@@ -387,9 +387,9 @@
             background: #2980b9;
         }
 
-        /* Hide GitHub badge and any other floating elements always */
+        /* Hide any external links and badges */
         [class*="github"], [class*="badge"], [id*="github"], [id*="badge"],
-        .github-corner, #github-corner, a[href*="github.com"] img {
+        .github-corner, #github-corner, a[href*="github"] {
             display: none !important;
             visibility: hidden !important;
         }
@@ -410,109 +410,140 @@
             .btn-add {
                 width: auto;
             }
+
+            .logo-section {
+                flex: 1 1 auto;
+                min-width: 250px;
+            }
+
+            .invoice-title {
+                flex: 0 0 auto;
+                width: auto;
+                min-width: 200px;
+                margin-top: 0;
+            }
         }
 
         @media print {
             @page {
                 size: A4;
-                margin: 8mm;
+                margin: 10mm;
+            }
+            
+            html, body {
+                background: white;
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                max-width: none;
+                height: auto;
             }
             
             body {
-                background: white;
-                padding: 0;
-                width: 100%;
-                max-width: none;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
             }
             
             .container {
                 box-shadow: none;
-                padding: 8px;
+                padding: 0;
                 max-width: none;
+                margin: 0;
             }
             
-            .actions, .btn-add, .btn-remove, .logo-placeholder {
+            /* Hide all buttons and interactive elements */
+            .actions, .btn-add, .btn-remove, .logo-placeholder, .logo-upload {
                 display: none !important;
+                visibility: hidden !important;
             }
             
-            /* Hide page URL and date in print footer/header */
+            /* Hide any external links */
+            [class*="github"], [class*="badge"], [id*="github"], [id*="badge"],
+            .github-corner, #github-corner, a[href*="github"], footer, .footer {
+                display: none !important;
+                visibility: hidden !important;
+                position: absolute !important;
+                left: -9999px !important;
+            }
+            
+            /* Remove page URL, date, and page numbers from print headers/footers */
             @page {
-                margin: 8mm;
-                @bottom-left {
-                    content: none;
-                }
-                @bottom-right {
-                    content: none;
-                }
-                @bottom-center {
-                    content: none;
-                }
-                @top-left {
-                    content: none;
-                }
-                @top-right {
-                    content: none;
-                }
-                @top-center {
-                    content: none;
-                }
+                margin: 10mm;
             }
             
+            /* Make inputs look like regular text */
             input, select {
                 border: none !important;
                 background: transparent !important;
                 -webkit-appearance: none;
                 appearance: none;
-                padding: 2px !important;
+                padding: 0 !important;
+                color: inherit !important;
             }
             
             input[type="date"] {
-                color: #7f8c8d;
+                color: #2c3e50 !important;
             }
             
             .table-container {
                 overflow: visible;
             }
             
-            /* Compact everything to fit on one page */
+            /* Ensure proper header layout in print */
             .header {
-                margin-bottom: 6px;
-                padding-bottom: 6px;
+                margin-bottom: 8px;
+                padding-bottom: 8px;
+                page-break-inside: avoid;
+            }
+            
+            .invoice-title {
+                min-width: auto;
+            }
+            
+            .invoice-title h2 {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+            
+            .invoice-title .date-container {
+                font-size: 11px;
+            }
+            
+            .invoice-title .date-label {
+                font-size: 11px;
+            }
+            
+            .invoice-title input[type="date"] {
+                font-size: 11px;
+                padding: 0 !important;
             }
             
             .logo {
-                width: 45px;
-                height: 45px;
+                width: 50px;
+                height: 50px;
                 font-size: 18px;
-                border-radius: 6px;
+                border-radius: 50%;
+                padding: 6px;
             }
             
             .logo img {
                 object-fit: contain;
+                object-position: center;
             }
             
             .company-info h1 {
-                font-size: 14px;
+                font-size: 15px;
                 margin-bottom: 2px;
             }
             
             .company-info p {
-                font-size: 9px;
+                font-size: 10px;
                 line-height: 1.2;
             }
             
-            .invoice-title h2 {
-                font-size: 18px;
-                margin-bottom: 3px;
-            }
-            
-            .invoice-title p {
-                font-size: 10px;
-            }
-            
             .input-section {
-                margin-bottom: 6px;
-                gap: 5px;
+                margin-bottom: 8px;
+                gap: 6px;
             }
             
             .input-group {
@@ -520,99 +551,99 @@
             }
             
             .input-group label {
-                font-size: 9px;
+                font-size: 10px;
                 margin-bottom: 2px;
             }
             
             .input-group input, .input-group select {
-                font-size: 9px;
-                padding: 2px;
+                font-size: 10px;
+                padding: 0 !important;
             }
             
             .products-section {
-                margin-bottom: 6px;
+                margin-bottom: 8px;
             }
             
             .products-section h3 {
-                font-size: 12px;
-                margin-bottom: 5px;
+                font-size: 13px;
+                margin-bottom: 6px;
             }
             
             th {
-                padding: 4px 3px;
-                font-size: 9px;
+                padding: 5px 3px;
+                font-size: 10px;
             }
             
             td {
-                padding: 3px 3px;
-                font-size: 9px;
+                padding: 4px 3px;
+                font-size: 10px;
             }
             
             td input {
-                font-size: 9px;
-                padding: 1px 2px;
+                font-size: 10px;
+                padding: 0 !important;
             }
             
             .summary {
-                margin-top: 6px;
+                margin-top: 8px;
             }
             
             .summary-box {
-                padding: 6px;
+                padding: 8px;
             }
             
             .summary-row {
-                font-size: 9px;
-                margin-bottom: 3px;
-            }
-            
-            .summary-row input {
-                font-size: 9px;
-                padding: 1px 3px;
-                width: 70px;
-            }
-            
-            .summary-row.total {
-                font-size: 11px;
-                padding-top: 5px;
-                margin-top: 5px;
-            }
-            
-            .summary-row.balance-due {
-                font-size: 11px;
-                padding: 5px;
-                margin: 5px -6px -6px -6px;
-            }
-            
-            .note-section {
-                margin-top: 6px;
-                padding: 6px;
-            }
-            
-            .note-section h4 {
-                font-size: 9px;
-                margin-bottom: 3px;
-            }
-            
-            .note-section p {
-                font-size: 8px;
-                line-height: 1.2;
-            }
-            
-            .terms-section {
-                margin-top: 6px;
-                padding: 6px;
-            }
-            
-            .terms-section h4 {
                 font-size: 10px;
                 margin-bottom: 4px;
             }
             
+            .summary-row input {
+                font-size: 10px;
+                padding: 0 !important;
+                width: 80px;
+            }
+            
+            .summary-row.total {
+                font-size: 12px;
+                padding-top: 6px;
+                margin-top: 6px;
+            }
+            
+            .summary-row.balance-due {
+                font-size: 12px;
+                padding: 6px;
+                margin: 6px -8px -8px -8px;
+            }
+            
+            .note-section {
+                margin-top: 8px;
+                padding: 8px;
+            }
+            
+            .note-section h4 {
+                font-size: 10px;
+                margin-bottom: 3px;
+            }
+            
+            .note-section p {
+                font-size: 9px;
+                line-height: 1.3;
+            }
+            
+            .terms-section {
+                margin-top: 8px;
+                padding: 8px;
+            }
+            
+            .terms-section h4 {
+                font-size: 11px;
+                margin-bottom: 5px;
+            }
+            
             .terms-section h5 {
                 font-size: 9px;
-                margin-top: 4px;
-                margin-bottom: 2px;
+                margin-top: 5px;
+                margin-bottom: 3px;
             }
             
             .terms-section p,
@@ -623,19 +654,12 @@
             }
             
             .terms-section ul {
-                margin-left: 12px;
+                margin-left: 14px;
                 margin-top: 2px;
             }
             
             .terms-section li {
                 margin-bottom: 1px;
-            }
-            
-            /* Hide GitHub badge and any other floating elements */
-            [class*="github"], [class*="badge"], [id*="github"], [id*="badge"],
-            .github-corner, #github-corner, a[href*="github.com"] img {
-                display: none !important;
-                visibility: hidden !important;
             }
         }
     </style>
@@ -644,11 +668,16 @@
     <div class="container" id="invoice">
         <div class="header">
             <div class="logo-section">
-                <div class="logo" onclick="document.getElementById('logoUpload').click()">
-                    <div class="logo-text" id="logoText">ST</div>
-                    <div class="logo-placeholder">📷 Upload Logo</div>
+                <div class="logo">
+                    <!-- Replace the src below with your logo image -->
+                    <!-- Option 1: Use direct URL (if accessible) -->
+                    <!-- <img src="https://i.imghippo.com/files/YUh6711lg.png" alt="Shop Turkey Logo"> -->
+                    
+                    <!-- Option 2: Upload your logo file and it will be converted to base64 -->
+                    <div class="logo-text" id="logoDisplay">ST</div>
+                    <input type="file" id="logoUpload" style="display:none" accept="image/*">
                 </div>
-                <input type="file" id="logoUpload" class="logo-upload" accept="image/*" onchange="handleLogoUpload(event)">
+                <button onclick="document.getElementById('logoUpload').click()" style="display:none" id="uploadBtn">Upload Logo</button>
                 <div class="company-info">
                     <h1>Shop Turkey</h1>
                     <p>Faisalabad, Pakistan</p>
@@ -657,7 +686,10 @@
             </div>
             <div class="invoice-title">
                 <h2>INVOICE</h2>
-                <p>Date: <input type="date" id="invoiceDate" style="border: 1px solid #ddd; padding: 5px; border-radius: 4px; font-size: 13px;"></p>
+                <div class="date-container">
+                    <span class="date-label">Date:</span>
+                    <input type="date" id="invoiceDate">
+                </div>
             </div>
         </div>
 
@@ -797,58 +829,33 @@
         const dateStr = today.toISOString().split('T')[0];
         document.getElementById('invoiceDate').value = dateStr;
 
-        function handleLogoUpload(event) {
-            const file = event.target.files[0];
+        // Logo upload functionality
+        document.getElementById('logoUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
             if (file && file.type.startsWith('image/')) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    const logo = document.querySelector('.logo');
-                    const logoText = document.getElementById('logoText');
+                reader.onload = function(event) {
+                    const logoDisplay = document.getElementById('logoDisplay');
+                    logoDisplay.innerHTML = `<img src="${event.target.result}" alt="Shop Turkey Logo" style="width:100%;height:100%;object-fit:contain;object-position:center;">`;
                     
-                    // Hide the text
-                    logoText.style.display = 'none';
+                    // Save to localStorage
+                    localStorage.setItem('shopTurkeyLogo', event.target.result);
                     
-                    // Remove any existing image
-                    const existingImg = logo.querySelector('img');
-                    if (existingImg) {
-                        existingImg.remove();
-                    }
-                    
-                    // Create and add new image
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.alt = 'Company Logo';
-                    
-                    // Insert image before logoText to maintain proper structure
-                    logo.insertBefore(img, logoText);
-                    
-                    // Store the image data in localStorage for persistence
-                    try {
-                        localStorage.setItem('invoiceLogo', e.target.result);
-                    } catch (error) {
-                        console.log('Could not save logo to localStorage');
-                    }
+                    console.log('Logo uploaded and saved! You can now copy the base64 data from localStorage.');
                 };
                 reader.readAsDataURL(file);
             }
-        }
+        });
 
         // Load saved logo on page load
         window.addEventListener('DOMContentLoaded', function() {
-            try {
-                const savedLogo = localStorage.getItem('invoiceLogo');
-                if (savedLogo) {
-                    const logo = document.querySelector('.logo');
-                    const logoText = document.getElementById('logoText');
-                    logoText.style.display = 'none';
-                    
-                    const img = document.createElement('img');
-                    img.src = savedLogo;
-                    img.alt = 'Company Logo';
-                    logo.insertBefore(img, logoText);
-                }
-            } catch (error) {
-                console.log('Could not load saved logo');
+            const savedLogo = localStorage.getItem('shopTurkeyLogo');
+            if (savedLogo) {
+                const logoDisplay = document.getElementById('logoDisplay');
+                logoDisplay.innerHTML = `<img src="${savedLogo}" alt="Shop Turkey Logo" style="width:100%;height:100%;object-fit:contain;object-position:center;">`;
+            } else {
+                // Show upload button if no logo is saved
+                document.getElementById('uploadBtn').style.display = 'inline-block';
             }
         });
 
@@ -910,21 +917,7 @@
         }
 
         function generatePDF() {
-            // Add CSS to hide print headers/footers
-            const style = document.createElement('style');
-            style.textContent = `
-                @page { margin: 0; }
-                body { margin: 8mm; }
-            `;
-            document.head.appendChild(style);
-            
-            // Trigger print
             window.print();
-            
-            // Remove the style after print dialog closes
-            setTimeout(() => {
-                document.head.removeChild(style);
-            }, 1000);
         }
 
         calculateTotal();
