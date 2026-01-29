@@ -420,7 +420,7 @@
         @media print {
             @page {
                 size: A4;
-                margin: 10mm;
+                margin: 6mm;
             }
             
             html, body {
@@ -452,11 +452,13 @@
                 padding: 0 !important;
                 max-width: none !important;
                 margin: 0 !important;
+                page-break-after: avoid !important;
+                page-break-inside: avoid !important;
             }
             
             /* Hide all buttons and interactive elements */
             .actions, .btn-add, .btn-remove, .logo-placeholder, .logo-upload,
-            button, input[type="file"] {
+            button, input[type="file"], #uploadBtn {
                 display: none !important;
                 visibility: hidden !important;
             }
@@ -505,10 +507,10 @@
                 overflow: visible;
             }
             
-            /* Ensure proper header layout in print */
+            /* Compact header */
             .header {
-                margin-bottom: 8px;
-                padding-bottom: 8px;
+                margin-bottom: 3px;
+                padding-bottom: 3px;
                 page-break-inside: avoid;
             }
             
@@ -517,29 +519,29 @@
             }
             
             .invoice-title h2 {
-                font-size: 20px;
-                margin-bottom: 5px;
+                font-size: 16px;
+                margin-bottom: 2px;
             }
             
             .invoice-title .date-container {
-                font-size: 11px;
+                font-size: 9px;
             }
             
             .invoice-title .date-label {
-                font-size: 11px;
+                font-size: 9px;
             }
             
             .invoice-title input[type="date"] {
-                font-size: 11px;
+                font-size: 9px;
                 padding: 0 !important;
             }
             
             .logo {
-                width: 50px;
-                height: 50px;
-                font-size: 18px;
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
                 border-radius: 50%;
-                padding: 6px;
+                padding: 4px;
             }
             
             .logo img {
@@ -548,18 +550,18 @@
             }
             
             .company-info h1 {
-                font-size: 15px;
-                margin-bottom: 2px;
+                font-size: 13px;
+                margin-bottom: 1px;
             }
             
             .company-info p {
-                font-size: 10px;
-                line-height: 1.2;
+                font-size: 8px;
+                line-height: 1.1;
             }
             
             .input-section {
-                margin-bottom: 8px;
-                gap: 6px;
+                margin-bottom: 3px;
+                gap: 2px;
             }
             
             .input-group {
@@ -567,115 +569,115 @@
             }
             
             .input-group label {
-                font-size: 10px;
-                margin-bottom: 2px;
+                font-size: 8px;
+                margin-bottom: 1px;
             }
             
             .input-group input, .input-group select {
-                font-size: 10px;
+                font-size: 8px;
                 padding: 0 !important;
             }
             
             .products-section {
-                margin-bottom: 8px;
+                margin-bottom: 3px;
             }
             
             .products-section h3 {
-                font-size: 13px;
-                margin-bottom: 6px;
+                font-size: 11px;
+                margin-bottom: 2px;
             }
             
             th {
-                padding: 5px 3px;
-                font-size: 10px;
+                padding: 3px 2px;
+                font-size: 8px;
             }
             
             td {
-                padding: 4px 3px;
-                font-size: 10px;
+                padding: 2px 2px;
+                font-size: 8px;
             }
             
             td input {
-                font-size: 10px;
+                font-size: 8px;
                 padding: 0 !important;
             }
             
             .summary {
-                margin-top: 8px;
+                margin-top: 3px;
             }
             
             .summary-box {
-                padding: 8px;
+                padding: 4px;
             }
             
             .summary-row {
-                font-size: 10px;
-                margin-bottom: 4px;
+                font-size: 8px;
+                margin-bottom: 2px;
             }
             
             .summary-row input {
-                font-size: 10px;
+                font-size: 8px;
                 padding: 0 !important;
-                width: 80px;
+                width: 60px;
             }
             
             .summary-row.total {
-                font-size: 12px;
-                padding-top: 6px;
-                margin-top: 6px;
+                font-size: 10px;
+                padding-top: 3px;
+                margin-top: 3px;
             }
             
             .summary-row.balance-due {
-                font-size: 12px;
-                padding: 6px;
-                margin: 6px -8px -8px -8px;
+                font-size: 10px;
+                padding: 4px;
+                margin: 3px -4px -4px -4px;
             }
             
             .note-section {
-                margin-top: 8px;
-                padding: 8px;
+                margin-top: 3px;
+                padding: 4px;
             }
             
             .note-section h4 {
-                font-size: 10px;
-                margin-bottom: 3px;
+                font-size: 8px;
+                margin-bottom: 1px;
             }
             
             .note-section p {
-                font-size: 9px;
-                line-height: 1.3;
+                font-size: 7px;
+                line-height: 1.1;
             }
             
             .terms-section {
-                margin-top: 8px;
-                padding: 8px;
+                margin-top: 3px;
+                padding: 4px;
             }
             
             .terms-section h4 {
-                font-size: 11px;
-                margin-bottom: 5px;
+                font-size: 9px;
+                margin-bottom: 2px;
             }
             
             .terms-section h5 {
-                font-size: 9px;
-                margin-top: 5px;
-                margin-bottom: 3px;
+                font-size: 7px;
+                margin-top: 2px;
+                margin-bottom: 1px;
             }
             
             .terms-section p,
             .terms-section ul {
-                font-size: 8px;
-                line-height: 1.3;
-                margin-bottom: 2px;
+                font-size: 6px;
+                line-height: 1.1;
+                margin-bottom: 1px;
             }
             
             .terms-section ul {
-                margin-left: 14px;
-                margin-top: 2px;
+                margin-left: 10px;
+                margin-top: 1px;
             }
             
             .terms-section li {
-                margin-bottom: 1px;
+                margin-bottom: 0px;
             }
         }
     </style>
@@ -684,11 +686,11 @@
     <div class="container" id="invoice">
         <div class="header">
             <div class="logo-section">
-                <div class="logo">
-                    <div class="logo-text" id="logoDisplay">ST</div>
+                <div class="logo" id="logoContainer">
+                    <div id="logoFallback" class="logo-text">ST</div>
                     <input type="file" id="logoUpload" style="display:none" accept="image/*">
                 </div>
-                <button onclick="document.getElementById('logoUpload').click()" style="display:none" id="uploadBtn">Upload Logo</button>
+                <button onclick="document.getElementById('logoUpload').click()" id="uploadBtn" style="padding: 5px 10px; background: #3498db; color: white; border: none; border-radius: 4px; font-size: 11px; cursor: pointer; margin-left: 10px;">Upload Logo</button>
                 <div class="company-info">
                     <h1>Shop Turkey</h1>
                     <p>Faisalabad, Pakistan</p>
@@ -846,13 +848,19 @@
             if (file && file.type.startsWith('image/')) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
-                    const logoDisplay = document.getElementById('logoDisplay');
-                    logoDisplay.innerHTML = `<img src="${event.target.result}" alt="Shop Turkey Logo" style="width:100%;height:100%;object-fit:contain;object-position:center;">`;
+                    const base64 = event.target.result;
+                    
+                    // Update the logo display
+                    const logoContainer = document.getElementById('logoContainer');
+                    logoContainer.innerHTML = `<img src="${base64}" alt="Shop Turkey Logo" style="width:100%;height:100%;object-fit:contain;">`;
+                    
+                    // Hide upload button
+                    document.getElementById('uploadBtn').style.display = 'none';
                     
                     // Save to localStorage
-                    localStorage.setItem('shopTurkeyLogo', event.target.result);
+                    localStorage.setItem('shopTurkeyLogoBase64', base64);
                     
-                    console.log('Logo uploaded and saved!');
+                    alert('Logo uploaded successfully! It will be saved for future use.');
                 };
                 reader.readAsDataURL(file);
             }
@@ -860,13 +868,11 @@
 
         // Load saved logo on page load
         window.addEventListener('DOMContentLoaded', function() {
-            const savedLogo = localStorage.getItem('shopTurkeyLogo');
+            const savedLogo = localStorage.getItem('shopTurkeyLogoBase64');
             if (savedLogo) {
-                const logoDisplay = document.getElementById('logoDisplay');
-                logoDisplay.innerHTML = `<img src="${savedLogo}" alt="Shop Turkey Logo" style="width:100%;height:100%;object-fit:contain;object-position:center;">`;
-            } else {
-                // Show upload button if no logo is saved
-                document.getElementById('uploadBtn').style.display = 'inline-block';
+                const logoContainer = document.getElementById('logoContainer');
+                logoContainer.innerHTML = `<img src="${savedLogo}" alt="Shop Turkey Logo" style="width:100%;height:100%;object-fit:contain;">`;
+                document.getElementById('uploadBtn').style.display = 'none';
             }
         });
 
@@ -928,6 +934,23 @@
         }
 
         function generatePDF() {
+            // Remove any footer or unwanted elements before printing
+            const unwantedElements = document.querySelectorAll('footer, .footer, [class*="footer"], [id*="footer"], [class*="github"], [id*="github"], [class*="badge"], [id*="badge"], a[href*="github"]');
+            unwantedElements.forEach(el => {
+                if (el && el.parentNode) {
+                    el.parentNode.removeChild(el);
+                }
+            });
+            
+            // Also remove any elements outside the container
+            const container = document.getElementById('invoice');
+            const bodyChildren = Array.from(document.body.children);
+            bodyChildren.forEach(child => {
+                if (child !== container && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+                    child.style.display = 'none';
+                }
+            });
+            
             window.print();
         }
 
