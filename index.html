@@ -763,97 +763,24 @@
             document.getElementById('balanceDue').textContent = balanceDue.toFixed(2);
         }
 
-        async function generatePDF() {
-            try {
-                const { jsPDF } = window.jspdf;
-                
-                const pdfBtn = document.querySelector('.btn-pdf');
-                const originalText = pdfBtn.textContent;
-                pdfBtn.textContent = 'Generating PDF...';
-                pdfBtn.disabled = true;
-                
-                const invoice = document.getElementById('invoice');
-                
-                const inputs = invoice.querySelectorAll('input:not([type="button"]):not([type="file"]), select');
-                const inputData = [];
-                
-                inputs.forEach(input => {
-                    let value = '';
-                    if (input.tagName === 'SELECT') {
-                        value = input.options[input.selectedIndex].text;
-                    } else {
-                        value = input.value || input.placeholder || '';
-                    }
-                    
-                    const div = document.createElement('div');
-                    div.className = 'display-value';
-                    div.textContent = value;
-                    div.style.cssText = window.getComputedStyle(input).cssText;
-                    div.style.border = 'none';
-                    div.style.display = 'block';
-                    
-                    inputData.push({
-                        input: input,
-                        parent: input.parentNode,
-                        next: input.nextSibling,
-                        div: div
-                    });
-                    
-                    input.parentNode.replaceChild(div, input);
-                });
-                
-                const buttons = invoice.querySelectorAll('.btn, .actions');
-                buttons.forEach(btn => btn.style.display = 'none');
-                
-                await new Promise(resolve => setTimeout(resolve, 200));
-                
-                const canvas = await html2canvas(invoice, {
-                    scale: 2,
-                    useCORS: true,
-                    logging: false,
-                    backgroundColor: '#ffffff'
-                });
-                
-                inputData.forEach(data => {
-                    data.parent.replaceChild(data.input, data.div);
-                });
-                
-                buttons.forEach(btn => btn.style.display = '');
-                
-                const imgData = canvas.toDataURL('image/png', 1.0);
-                const pdf = new jsPDF({
-                    orientation: 'portrait',
-                    unit: 'mm',
-                    format: 'a4',
-                    compress: true
-                });
-                
-                const pdfWidth = 210; // A4 width in mm
-                const pdfHeight = 297; // A4 height in mm
-                
-                // Calculate image dimensions to fill A4 width with margins
-                const margin = 10;
-                const imgWidth = pdfWidth - (2 * margin);
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                
-                // Add image - full width with margins
-                pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
-                
-                const date = new Date().toLocaleDateString('en-PK').replace(/\//g, '-');
-                pdf.save(`Invoice-${date}.pdf`);
-                
-                pdfBtn.textContent = originalText;
-                pdfBtn.disabled = false;
-                
-            } catch (error) {
-                console.error('PDF generation error:', error);
-                alert('Error generating PDF. Please try using your browser print function (Ctrl+P or Cmd+P) and save as PDF.');
-                
-                const pdfBtn = document.querySelector('.btn-pdf');
-                pdfBtn.textContent = 'Download PDF';
-                pdfBtn.disabled = false;
-            }
-        }
+            async function generatePDF() {
+            const pdfBtn = document.querySelector('.btn-pdf');
+            const originalText = pdfBtn.textContent;
+            pdfBtn.textContent = 'Preparing...';
+            pdfBtn.disabled = true;
+    
+            // Hide buttons for printing
+            const buttons = document.querySelectorAll('.btn, .actions');
+            buttons.forEach(btn => btn.style.display = 'none');
+    
+            // Trigger browser print dialog
+            setTimeout(() => {
+            window.print();
+            buttons.forEach(btn => btn.style.display = '');
+            pdfBtn.textContent = originalText;
+            pdfBtn.disabled = false;
+    }, 100);
+}
 
         calculateTotal();
     </script>
