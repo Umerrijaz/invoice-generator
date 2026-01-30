@@ -2,523 +2,370 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Invoice Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Shop Turkey Invoice</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        @page {
-            size: A4;
-            margin: 12mm;
-        }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            padding: 10px;
-            max-width: 210mm;
-            margin: 0 auto;
-            -webkit-text-size-adjust: 100%;
-            -webkit-tap-highlight-color: transparent;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
         }
 
-        /* Prevent zoom on input focus for mobile */
-        @media screen and (max-width: 599px) {
-            input, select, textarea {
-                font-size: 16px !important;
-            }
-            
-            .terms-section h5 {
-                margin-top: 12px;
-            }
-            
-            .terms-section li {
-                margin-bottom: 5px;
-            }
-            
-            .container {
-                padding: 16px;
-            }
-        }
-
-        .container {
-            max-width: 900px;
+        .invoice-container {
+            max-width: 800px;
             margin: 0 auto;
             background: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
-        .header {
+        /* HEADER */
+        .invoice-header {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 18px;
-            padding-bottom: 14px;
-            border-bottom: 3px solid #2c3e50;
+            align-items: start;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #333;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
             gap: 15px;
         }
 
-        .logo-section {
+        .company-details {
             display: flex;
-            align-items: center;
             gap: 15px;
-            flex: 1 1 100%;
-            min-width: 0;
+            align-items: center;
+            flex: 1;
         }
 
-        .logo {
+        .logo-circle {
             width: 70px;
             height: 70px;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             border-radius: 50%;
             border: 2px solid #ddd;
-            flex-shrink: 0;
-            overflow: hidden;
-            padding: 8px;
-        }
-
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            object-position: center;
-            display: block;
-        }
-
-        .logo-text {
-            font-size: 24px;
-            color: #3498db;
-            font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .logo-circle img {
             width: 100%;
             height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
-        .company-info h1 {
-            color: #2c3e50;
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-
-        .company-info p {
-            color: #7f8c8d;
-            font-size: 12px;
-            line-height: 1.3;
-        }
-
-        .invoice-title {
-            text-align: right;
-            flex-shrink: 0;
-            width: 100%;
-            min-width: 0;
-            margin-top: 10px;
-        }
-
-        .invoice-title h2 {
-            color: #2c3e50;
-            font-size: 24px;
-            margin-bottom: 8px;
-            text-align: right;
-        }
-
-        .invoice-title .date-container {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .invoice-title .date-label {
-            color: #7f8c8d;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .invoice-title input[type="date"] {
-            border: 1px solid #ddd;
-            padding: 6px 8px;
-            border-radius: 4px;
-            font-size: 13px;
-            color: #2c3e50;
-            background: white;
-        }
-
-        .input-section {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 14px;
-            margin-bottom: 18px;
-        }
-
-        .input-group {
-            margin-bottom: 0;
-        }
-
-        .input-group label {
-            display: block;
+        .company-text h1 {
+            font-size: 20px;
             margin-bottom: 5px;
-            color: #2c3e50;
-            font-weight: 600;
-            font-size: 13px;
+            color: #333;
         }
 
-        .input-group input,
-        .input-group select {
+        .company-text p {
+            font-size: 12px;
+            color: #666;
+            margin: 2px 0;
+        }
+
+        .invoice-info {
+            text-align: right;
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            background: white;
-            -webkit-tap-highlight-color: transparent;
-            transform: translateZ(0);
-            backface-visibility: hidden;
-            perspective: 1000px;
-        }
-
-        .input-group input:focus,
-        .input-group select:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .input-group select {
-            cursor: pointer;
-            appearance: auto;
-            -webkit-appearance: menulist;
-            -moz-appearance: menulist;
-            height: 44px;
-            line-height: 44px;
-            touch-action: manipulation;
-            will-change: auto;
-            -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
         }
         
-        .input-group select option {
-            background: white;
-            color: #2c3e50;
+        @media screen and (min-width: 600px) {
+            .invoice-info {
+                width: auto;
+            }
+        }
+
+        .invoice-info h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .date-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .date-row label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .date-row input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* CUSTOMER INFO */
+        .customer-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-field label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .form-field input,
+        .form-field select {
             padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
         }
 
-        .products-section {
-            margin-bottom: 18px;
+        /* For mobile - prevent zoom */
+        @media screen and (max-width: 600px) {
+            .form-field input,
+            .form-field select {
+                font-size: 16px;
+            }
+            
+            .customer-section {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .products-section h3 {
-            color: #2c3e50;
-            margin-bottom: 12px;
+        /* PRODUCTS TABLE */
+        .products-title {
             font-size: 16px;
-            font-weight: 700;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
         }
 
-        .table-container {
+        .products-table {
             width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+            border-collapse: collapse;
             margin-bottom: 10px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 100%;
-        }
-
-        th {
-            background: #2c3e50;
+        .products-table thead {
+            background: #333;
             color: white;
-            padding: 8px 5px;
+        }
+
+        .products-table th {
+            padding: 8px;
             text-align: left;
-            font-weight: 600;
+            font-weight: bold;
             font-size: 12px;
-            white-space: nowrap;
         }
 
-        td {
-            padding: 6px 5px;
-            border-bottom: 1px solid #ecf0f1;
-            vertical-align: middle;
+        .products-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #eee;
         }
 
-        td input {
+        .products-table input {
             width: 100%;
             padding: 5px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 3px;
             font-size: 12px;
-            min-width: 60px;
         }
 
-        .product-name-input {
-            min-width: 120px;
-        }
-
-        .btn {
-            padding: 8px 16px;
+        .remove-btn {
+            background: #e74c3c;
+            color: white;
             border: none;
+            padding: 5px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .add-product-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 16px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 13px;
-            font-weight: 600;
-            transition: background 0.3s;
-            width: 100%;
+            font-weight: bold;
+            margin-bottom: 15px;
         }
 
-        .btn-add {
-            background: #27ae60;
-            color: white;
-            margin-bottom: 10px;
-        }
-
-        .btn-add:hover {
-            background: #229954;
-        }
-
-        .btn-remove {
-            background: #e74c3c;
-            color: white;
-            padding: 5px 8px;
-            width: auto;
-            font-size: 16px;
-            line-height: 1;
-            min-width: 28px;
-        }
-
-        .btn-remove:hover {
-            background: #c0392b;
-        }
-
-        .summary {
-            margin-top: 18px;
-        }
-
+        /* SUMMARY */
         .summary-box {
-            width: 100%;
-            background: #ecf0f1;
-            padding: 14px;
-            border-radius: 4px;
-            border: 1px solid #d5dbdb;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 13px;
-            gap: 10px;
-        }
-
-        .summary-row-label {
-            flex: 1;
-            text-align: left;
-            color: #34495e;
-            font-weight: 500;
-        }
-
-        .summary-row-value {
-            flex: 1;
-            text-align: right;
-            display: flex;
             align-items: center;
-            justify-content: flex-end;
-            gap: 5px;
-            color: #2c3e50;
+        }
+
+        .summary-row label {
             font-weight: 500;
+            color: #333;
+        }
+
+        .summary-row .value {
+            font-weight: bold;
+            color: #333;
         }
 
         .summary-row input {
-            width: 90px;
+            width: 100px;
+            padding: 5px 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
             text-align: right;
-            padding: 6px 8px;
-            border: 1px solid #bdc3c7;
-            border-radius: 4px;
             font-size: 13px;
-            font-weight: 500;
         }
 
-        .summary-row.total {
-            border-top: 2px solid #2c3e50;
-            padding-top: 12px;
-            margin-top: 12px;
-            margin-bottom: 10px;
-            font-size: 16px;
+        .total-row {
+            border-top: 2px solid #333;
+            padding-top: 8px;
+            margin-top: 8px;
+            font-size: 15px;
             font-weight: bold;
-            color: #2c3e50;
         }
 
-        .summary-row.balance-due {
-            font-size: 16px;
+        .balance-row {
+            background: #ffe5e5;
+            margin: 10px -15px -15px -15px;
+            padding: 10px 15px;
+            border-radius: 0 0 5px 5px;
+            font-size: 15px;
             font-weight: bold;
             color: #e74c3c;
-            background: #ffe5e5;
-            padding: 10px;
-            margin: 10px -14px -14px -14px;
-            border-radius: 0 0 4px 4px;
         }
 
-        .note-section {
-            margin-top: 18px;
-            padding: 12px;
+        /* NOTES & TERMS */
+        .note-box {
             background: #fff3cd;
             border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin-bottom: 15px;
             border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        .note-section h4 {
-            color: #856404;
-            margin-bottom: 6px;
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .note-section p {
-            color: #856404;
-            font-size: 11px;
-            line-height: 1.6;
-        }
-
-        .terms-section {
-            margin-top: 18px;
-            padding: 14px;
-            background: #f8f9fa;
-            border-radius: 4px;
-            border: 1px solid #e9ecef;
-        }
-
-        .terms-section h4 {
-            color: #495057;
-            margin-bottom: 10px;
-            font-size: 14px;
-            font-weight: 700;
-            border-bottom: 2px solid #dee2e6;
-            padding-bottom: 6px;
-        }
-
-        .terms-section h5 {
-            color: #495057;
-            margin-top: 10px;
+        .note-box h4 {
+            font-size: 12px;
             margin-bottom: 5px;
+            color: #856404;
+        }
+
+        .note-box p {
             font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+            line-height: 1.5;
+            color: #856404;
         }
 
-        .terms-section p,
-        .terms-section ul {
-            color: #6c757d;
+        .terms-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .terms-box h4 {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 5px;
+        }
+
+        .terms-box h5 {
             font-size: 10px;
-            line-height: 1.6;
-            margin-bottom: 6px;
-        }
-
-        .terms-section ul {
-            margin-left: 18px;
-            margin-top: 4px;
-            padding-left: 4px;
-        }
-
-        .terms-section li {
+            font-weight: bold;
+            margin-top: 8px;
             margin-bottom: 4px;
-            padding-left: 2px;
-        }
-        
-        .terms-section li:last-child {
-            margin-bottom: 0;
+            color: #495057;
+            text-transform: uppercase;
         }
 
-        .actions {
-            margin-top: 20px;
+        .terms-box ul {
+            margin-left: 16px;
+            margin-bottom: 5px;
+        }
+
+        .terms-box li {
+            font-size: 9px;
+            line-height: 1.5;
+            color: #6c757d;
+            margin-bottom: 3px;
+        }
+
+        /* ACTION BUTTONS */
+        .action-buttons {
             display: flex;
-            flex-direction: column;
             gap: 10px;
+            margin-top: 20px;
         }
 
-        .btn-pdf {
+        .print-btn {
+            flex: 1;
             background: #3498db;
             color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
         }
 
-        .btn-pdf:hover {
-            background: #2980b9;
+        .upload-logo-btn {
+            background: #9b59b6;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
         }
 
-        @media (min-width: 600px) {
-            body {
-                padding: 20px;
-            }
-
-            .container {
-                padding: 25px;
-            }
-
-            .input-section {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .btn-add {
-                width: auto;
-            }
-
-            .logo-section {
-                flex: 1 1 auto;
-                min-width: 250px;
-            }
-
-            .invoice-title {
-                flex: 0 0 auto;
-                width: auto;
-                min-width: 200px;
-                margin-top: 0;
-            }
-            
-            .input-group select {
-                appearance: none;
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-                background-repeat: no-repeat;
-                background-position: right 8px center;
-                background-size: 16px;
-                padding-right: 32px;
-                height: auto;
-                line-height: normal;
-            }
-            
-            .input-group input,
-            .input-group select {
-                font-size: 13px;
-                padding: 8px;
-            }
-        }
-
+        /* PRINT STYLES - CRITICAL FOR MOBILE */
         @media print {
             @page {
-                size: A4;
-                margin: 10mm;
+                size: A4 portrait;
+                margin: 8mm;
             }
-            
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                color-adjust: exact !important;
-            }
-            
+
             html, body {
                 background: white !important;
                 padding: 0 !important;
@@ -526,252 +373,239 @@
                 width: 210mm !important;
                 height: 297mm !important;
             }
-            
+
             body {
-                print-color-adjust: exact;
-                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact !important;
+                -webkit-print-color-adjust: exact !important;
             }
-            
-            .container {
+
+            .invoice-container {
+                max-width: 100% !important;
                 box-shadow: none !important;
                 padding: 0 !important;
-                max-width: 100% !important;
                 margin: 0 !important;
-                width: 100% !important;
                 page-break-after: avoid !important;
                 page-break-inside: avoid !important;
             }
-            
-            /* Hide all buttons and interactive elements */
-            .actions, .btn-add, .btn-remove, 
-            button, input[type="file"], #uploadBtn {
-                display: none !important;
-                visibility: hidden !important;
+
+            /* CRITICAL: Keep header visible */
+            .invoice-header {
+                display: flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                margin-bottom: 4mm !important;
+                padding-bottom: 3mm !important;
+                page-break-inside: avoid !important;
+                page-break-after: avoid !important;
             }
-            
-            /* Make inputs look like regular text */
-            input, select {
+
+            .company-details {
+                display: flex !important;
+                visibility: visible !important;
+            }
+
+            .logo-circle {
+                display: flex !important;
+                visibility: visible !important;
+                width: 45px !important;
+                height: 45px !important;
+                font-size: 18px !important;
+            }
+
+            .company-text {
+                display: block !important;
+                visibility: visible !important;
+            }
+
+            .company-text h1 {
+                font-size: 14px !important;
+                margin-bottom: 2mm !important;
+            }
+
+            .company-text p {
+                font-size: 9px !important;
+                line-height: 1.3 !important;
+            }
+
+            .invoice-info {
+                display: block !important;
+                visibility: visible !important;
+            }
+
+            .invoice-info h2 {
+                font-size: 18px !important;
+                margin-bottom: 2mm !important;
+            }
+
+            .date-row {
+                display: flex !important;
+                font-size: 9px !important;
+            }
+
+            /* Hide buttons */
+            .action-buttons,
+            .add-product-btn,
+            .remove-btn,
+            .upload-logo-btn,
+            input[type="file"] {
+                display: none !important;
+            }
+
+            /* Make inputs look like text */
+            input,
+            select {
                 border: none !important;
                 background: transparent !important;
-                -webkit-appearance: none;
-                appearance: none;
                 padding: 0 !important;
-                color: inherit !important;
+                font-weight: inherit !important;
             }
-            
-            input[type="date"] {
-                color: #2c3e50 !important;
+
+            /* Compact spacing to fit on one page */
+            .customer-section {
+                margin-bottom: 3mm !important;
+                gap: 2mm !important;
+                page-break-inside: avoid !important;
             }
-            
-            .table-container {
-                overflow: visible;
+
+            .form-field label {
+                font-size: 9px !important;
+                margin-bottom: 1mm !important;
             }
-            
-            /* LARGER sizes for print to fill A4 properly */
-            .header {
-                margin-bottom: 8mm;
-                padding-bottom: 4mm;
-                page-break-inside: avoid;
+
+            .form-field input,
+            .form-field select {
+                font-size: 9px !important;
             }
-            
-            .invoice-title h2 {
-                font-size: 22px;
-                margin-bottom: 3mm;
+
+            .products-title {
+                font-size: 11px !important;
+                margin-bottom: 2mm !important;
             }
-            
-            .invoice-title .date-container {
-                font-size: 11px;
+
+            .products-table th {
+                font-size: 9px !important;
+                padding: 2mm 1.5mm !important;
             }
-            
-            .invoice-title .date-label {
-                font-size: 11px;
+
+            .products-table td {
+                font-size: 9px !important;
+                padding: 1.5mm 1.5mm !important;
             }
-            
-            .invoice-title input[type="date"] {
-                font-size: 11px;
-            }
-            
-            .logo {
-                width: 50px;
-                height: 50px;
-                font-size: 18px;
-                padding: 6px;
-            }
-            
-            .company-info h1 {
-                font-size: 16px;
-                margin-bottom: 2mm;
-            }
-            
-            .company-info p {
-                font-size: 11px;
-                line-height: 1.4;
-            }
-            
-            .input-section {
-                margin-bottom: 6mm;
-                gap: 3mm;
-            }
-            
-            .input-group label {
-                font-size: 11px;
-                margin-bottom: 1.5mm;
-                font-weight: 600;
-            }
-            
-            .input-group input, .input-group select {
-                font-size: 11px;
-            }
-            
-            .products-section {
-                margin-bottom: 6mm;
-            }
-            
-            .products-section h3 {
-                font-size: 14px;
-                margin-bottom: 3mm;
-                font-weight: 700;
-            }
-            
-            th {
-                padding: 3mm 2mm;
-                font-size: 11px;
-            }
-            
-            td {
-                padding: 2.5mm 2mm;
-                font-size: 11px;
-            }
-            
-            td input {
-                font-size: 11px;
-            }
-            
-            .summary {
-                margin-top: 6mm;
-            }
-            
+
             .summary-box {
-                padding: 4mm;
+                padding: 3mm !important;
+                margin-bottom: 3mm !important;
+                page-break-inside: avoid !important;
             }
-            
+
             .summary-row {
-                font-size: 11px;
-                margin-bottom: 2.5mm;
+                font-size: 9px !important;
+                margin-bottom: 1.5mm !important;
             }
-            
+
             .summary-row input {
-                font-size: 11px;
-                width: 70px;
+                font-size: 9px !important;
             }
-            
-            .summary-row.total {
-                font-size: 13px;
-                padding-top: 3mm;
-                margin-top: 3mm;
-                font-weight: bold;
+
+            .total-row {
+                font-size: 11px !important;
+                padding-top: 2mm !important;
+                margin-top: 2mm !important;
             }
-            
-            .summary-row.balance-due {
-                font-size: 13px;
-                padding: 3mm;
-                margin: 3mm -4mm -4mm -4mm;
-                font-weight: bold;
+
+            .balance-row {
+                font-size: 11px !important;
+                padding: 2mm 3mm !important;
+                margin: 2mm -3mm -3mm -3mm !important;
             }
-            
-            .note-section {
-                margin-top: 6mm;
-                padding: 4mm;
+
+            .note-box {
+                padding: 2.5mm !important;
+                margin-bottom: 3mm !important;
+                page-break-inside: avoid !important;
             }
-            
-            .note-section h4 {
-                font-size: 11px;
-                margin-bottom: 2mm;
-                font-weight: 700;
+
+            .note-box h4 {
+                font-size: 9px !important;
+                margin-bottom: 1mm !important;
             }
-            
-            .note-section p {
-                font-size: 10px;
-                line-height: 1.5;
+
+            .note-box p {
+                font-size: 8px !important;
+                line-height: 1.4 !important;
             }
-            
-            .terms-section {
-                margin-top: 6mm;
-                padding: 4mm;
+
+            .terms-box {
+                padding: 3mm !important;
+                margin-bottom: 0 !important;
+                page-break-inside: avoid !important;
             }
-            
-            .terms-section h4 {
-                font-size: 12px;
-                margin-bottom: 3mm;
-                font-weight: 700;
-                padding-bottom: 2mm;
+
+            .terms-box h4 {
+                font-size: 10px !important;
+                margin-bottom: 2mm !important;
+                padding-bottom: 1mm !important;
             }
-            
-            .terms-section h5 {
-                font-size: 10px;
-                margin-top: 3mm;
-                margin-bottom: 1.5mm;
-                font-weight: 700;
+
+            .terms-box h5 {
+                font-size: 8px !important;
+                margin-top: 2mm !important;
+                margin-bottom: 1mm !important;
             }
-            
-            .terms-section p,
-            .terms-section ul {
-                font-size: 9px;
-                line-height: 1.6;
-                margin-bottom: 1.5mm;
+
+            .terms-box li {
+                font-size: 7.5px !important;
+                line-height: 1.4 !important;
+                margin-bottom: 0.5mm !important;
             }
-            
-            .terms-section ul {
-                margin-left: 14px;
-                margin-top: 1.5mm;
-            }
-            
-            .terms-section li {
-                margin-bottom: 1.5mm;
+
+            .terms-box ul {
+                margin-left: 12px !important;
+                margin-bottom: 1mm !important;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container" id="invoice">
-        <div class="header">
-            <div class="logo-section">
-                <div class="logo" id="logoContainer">
-                    <div id="logoFallback" class="logo-text">ST</div>
-                    <input type="file" id="logoUpload" style="display:none" accept="image/*">
-                </div>
-                <button onclick="document.getElementById('logoUpload').click()" id="uploadBtn" style="padding: 5px 10px; background: #3498db; color: white; border: none; border-radius: 4px; font-size: 11px; cursor: pointer; margin-left: 10px;">Upload Logo</button>
-                <div class="company-info">
+    <div class="invoice-container">
+        <!-- HEADER -->
+        <div class="invoice-header">
+            <div class="company-details">
+                <div class="logo-circle" id="logoCircle">ST</div>
+                <input type="file" id="logoInput" accept="image/*" style="display: none;">
+                <button class="upload-logo-btn" onclick="document.getElementById('logoInput').click()">Upload Logo</button>
+                <div class="company-text">
                     <h1>Shop Turkey</h1>
                     <p>Faisalabad, Pakistan</p>
-                    <p>Instagram:_shopturkey</p>
+                    <p>Instagram: _shopturkey</p>
                 </div>
             </div>
-            <div class="invoice-title">
+            <div class="invoice-info">
                 <h2>INVOICE</h2>
-                <div class="date-container">
-                    <span class="date-label">Date:</span>
+                <div class="date-row">
+                    <label>Date:</label>
                     <input type="date" id="invoiceDate">
                 </div>
             </div>
         </div>
 
-        <div class="input-section">
-            <div class="input-group">
+        <!-- CUSTOMER INFO -->
+        <div class="customer-section">
+            <div class="form-field">
                 <label>Customer Name:</label>
                 <input type="text" id="customerName" placeholder="Enter customer name">
             </div>
-            <div class="input-group">
+            <div class="form-field">
                 <label>Customer Phone:</label>
                 <input type="text" id="customerPhone" placeholder="Enter phone number">
             </div>
-            <div class="input-group">
+            <div class="form-field">
                 <label>Customer Address:</label>
-                <input type="text" id="customerAddress" placeholder="Enter customer address">
+                <input type="text" id="customerAddress" placeholder="Enter address">
             </div>
-            <div class="input-group">
+            <div class="form-field">
                 <label>Payment Method:</label>
-                <select id="paymentMethod" onchange="calculateTotal()">
+                <select id="paymentMethod">
                     <option value="Cash on Delivery">Cash on Delivery</option>
                     <option value="Advance Payment">Advance Payment</option>
                     <option value="Bank Transfer">Bank Transfer</option>
@@ -779,78 +613,70 @@
             </div>
         </div>
 
-        <div class="products-section">
-            <h3>Products</h3>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 40%">Product Name</th>
-                            <th style="width: 15%">Qty</th>
-                            <th style="width: 20%">Price</th>
-                            <th style="width: 20%">Total</th>
-                            <th style="width: 5%"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="productsTable">
-                        <tr>
-                            <td><input type="text" class="product-name product-name-input" placeholder="Product name"></td>
-                            <td><input type="number" class="quantity" value="1" min="1" onchange="calculateTotal()"></td>
-                            <td><input type="number" class="price" value="0" min="0" onchange="calculateTotal()"></td>
-                            <td><input type="number" class="item-total" value="0" readonly></td>
-                            <td><button class="btn btn-remove" onclick="removeRow(this)">×</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <button class="btn btn-add" onclick="addRow()">+ Add Product</button>
-        </div>
+        <!-- PRODUCTS -->
+        <div class="products-title">Products</div>
+        <table class="products-table">
+            <thead>
+                <tr>
+                    <th style="width: 45%">Product Name</th>
+                    <th style="width: 15%">Qty</th>
+                    <th style="width: 18%">Price</th>
+                    <th style="width: 18%">Total</th>
+                    <th style="width: 4%"></th>
+                </tr>
+            </thead>
+            <tbody id="productsBody">
+                <tr>
+                    <td><input type="text" class="product-name" placeholder="Product name"></td>
+                    <td><input type="number" class="qty" value="1" min="1"></td>
+                    <td><input type="number" class="price" value="0" min="0"></td>
+                    <td><input type="number" class="total" value="0" readonly></td>
+                    <td><button class="remove-btn" onclick="removeProduct(this)">×</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="add-product-btn" onclick="addProduct()">+ Add Product</button>
 
-        <div class="summary">
-            <div class="summary-box">
-                <div class="summary-row">
-                    <span class="summary-row-label">Subtotal:</span>
-                    <span class="summary-row-value">PKR <span id="subtotal">0.00</span></span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-row-label">Delivery Charges:</span>
-                    <span class="summary-row-value">
-                        PKR <input type="number" id="deliveryCharges" value="0" min="0" onchange="calculateTotal()">
-                    </span>
-                </div>
-                <div class="summary-row" id="codTaxRow" style="display: none;">
-                    <span class="summary-row-label">COD Tax (4%):</span>
-                    <span class="summary-row-value">PKR <span id="codTax">0.00</span></span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-row-label">Discount:</span>
-                    <span class="summary-row-value">
-                        PKR <input type="number" id="discount" value="0" min="0" onchange="calculateTotal()">
-                    </span>
-                </div>
-                <div class="summary-row total">
-                    <span class="summary-row-label">TOTAL:</span>
-                    <span class="summary-row-value">PKR <span id="total">0.00</span></span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-row-label">Amount Paid:</span>
-                    <span class="summary-row-value">
-                        PKR <input type="number" id="amountPaid" value="0" min="0" onchange="calculateTotal()">
-                    </span>
-                </div>
-                <div class="summary-row balance-due">
-                    <span class="summary-row-label">BALANCE DUE:</span>
-                    <span class="summary-row-value">PKR <span id="balanceDue">0.00</span></span>
-                </div>
+        <!-- SUMMARY -->
+        <div class="summary-box">
+            <div class="summary-row">
+                <label>Subtotal:</label>
+                <span class="value">PKR <span id="subtotal">0.00</span></span>
+            </div>
+            <div class="summary-row">
+                <label>Delivery Charges:</label>
+                <span class="value">PKR <input type="number" id="delivery" value="0" min="0"></span>
+            </div>
+            <div class="summary-row" id="codTaxRow" style="display: none;">
+                <label>COD Tax (4%):</label>
+                <span class="value">PKR <span id="codTax">0.00</span></span>
+            </div>
+            <div class="summary-row">
+                <label>Discount:</label>
+                <span class="value">PKR <input type="number" id="discount" value="0" min="0"></span>
+            </div>
+            <div class="summary-row total-row">
+                <label>TOTAL:</label>
+                <span class="value">PKR <span id="totalAmount">0.00</span></span>
+            </div>
+            <div class="summary-row">
+                <label>Amount Paid:</label>
+                <span class="value">PKR <input type="number" id="paid" value="0" min="0"></span>
+            </div>
+            <div class="summary-row balance-row">
+                <label>BALANCE DUE:</label>
+                <span class="value">PKR <span id="balance">0.00</span></span>
             </div>
         </div>
 
-        <div class="note-section">
+        <!-- NOTE -->
+        <div class="note-box">
             <h4>⚠️ Important Note:</h4>
             <p>Please make a video while opening the package so we can file claims in case of damaged or lost items.</p>
         </div>
 
-        <div class="terms-section">
+        <!-- TERMS -->
+        <div class="terms-box">
             <h4>Terms & Conditions</h4>
             
             <h5>Payment Policy</h5>
@@ -881,106 +707,114 @@
             </ul>
         </div>
 
-        <div class="actions">
-            <button class="btn btn-pdf" onclick="generatePDF()">Save as PDF</button>
+        <!-- ACTIONS -->
+        <div class="action-buttons">
+            <button class="print-btn" onclick="printInvoice()">💾 Save as PDF</button>
         </div>
     </div>
-    
+
     <script>
         // Set today's date
-        const today = new Date();
-        const dateStr = today.toISOString().split('T')[0];
-        document.getElementById('invoiceDate').value = dateStr;
+        document.getElementById('invoiceDate').value = new Date().toISOString().split('T')[0];
 
         // Logo upload
-        document.getElementById('logoUpload').addEventListener('change', function(e) {
+        document.getElementById('logoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file && file.type.startsWith('image/')) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
-                    const base64 = event.target.result;
-                    const logoContainer = document.getElementById('logoContainer');
-                    logoContainer.innerHTML = `<img src="${base64}" alt="Shop Turkey Logo" style="width:100%;height:100%;object-fit:contain;">`;
-                    document.getElementById('uploadBtn').style.display = 'none';
-                    localStorage.setItem('shopTurkeyLogoBase64', base64);
-                    alert('Logo uploaded successfully!');
+                    const logoCircle = document.getElementById('logoCircle');
+                    logoCircle.innerHTML = `<img src="${event.target.result}" alt="Logo">`;
+                    localStorage.setItem('invoiceLogo', event.target.result);
                 };
                 reader.readAsDataURL(file);
             }
         });
 
         // Load saved logo
-        window.addEventListener('DOMContentLoaded', function() {
-            const savedLogo = localStorage.getItem('shopTurkeyLogoBase64');
-            if (savedLogo) {
-                const logoContainer = document.getElementById('logoContainer');
-                logoContainer.innerHTML = `<img src="${savedLogo}" alt="Shop Turkey Logo" style="width:100%;height:100%;object-fit:contain;">`;
-                document.getElementById('uploadBtn').style.display = 'none';
-            }
-        });
+        const savedLogo = localStorage.getItem('invoiceLogo');
+        if (savedLogo) {
+            document.getElementById('logoCircle').innerHTML = `<img src="${savedLogo}" alt="Logo">`;
+        }
 
-        function addRow() {
-            const table = document.getElementById('productsTable');
-            const newRow = table.insertRow();
-            newRow.innerHTML = `
-                <td><input type="text" class="product-name product-name-input" placeholder="Product name"></td>
-                <td><input type="number" class="quantity" value="1" min="1" onchange="calculateTotal()"></td>
-                <td><input type="number" class="price" value="0" min="0" onchange="calculateTotal()"></td>
-                <td><input type="number" class="item-total" value="0" readonly></td>
-                <td><button class="btn btn-remove" onclick="removeRow(this)">×</button></td>
+        // Add product row
+        function addProduct() {
+            const tbody = document.getElementById('productsBody');
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td><input type="text" class="product-name" placeholder="Product name"></td>
+                <td><input type="number" class="qty" value="1" min="1"></td>
+                <td><input type="number" class="price" value="0" min="0"></td>
+                <td><input type="number" class="total" value="0" readonly></td>
+                <td><button class="remove-btn" onclick="removeProduct(this)">×</button></td>
             `;
-            calculateTotal();
+            attachCalculators();
         }
 
-        function removeRow(button) {
-            const table = document.getElementById('productsTable');
-            if (table.rows.length > 1) {
-                button.parentElement.parentElement.remove();
-                calculateTotal();
+        // Remove product row
+        function removeProduct(btn) {
+            if (document.querySelectorAll('#productsBody tr').length > 1) {
+                btn.closest('tr').remove();
+                calculate();
             }
         }
 
-        function calculateTotal() {
-            const rows = document.querySelectorAll('#productsTable tr');
-            let subtotal = 0;
+        // Attach event listeners
+        function attachCalculators() {
+            document.querySelectorAll('.qty, .price').forEach(input => {
+                input.removeEventListener('input', calculate);
+                input.addEventListener('input', calculate);
+            });
+            document.querySelectorAll('#delivery, #discount, #paid, #paymentMethod').forEach(input => {
+                input.removeEventListener('input', calculate);
+                input.removeEventListener('change', calculate);
+                input.addEventListener('input', calculate);
+                input.addEventListener('change', calculate);
+            });
+        }
 
-            rows.forEach(row => {
-                const quantity = parseFloat(row.querySelector('.quantity').value) || 0;
+        // Calculate totals
+        function calculate() {
+            let subtotal = 0;
+            
+            document.querySelectorAll('#productsBody tr').forEach(row => {
+                const qty = parseFloat(row.querySelector('.qty').value) || 0;
                 const price = parseFloat(row.querySelector('.price').value) || 0;
-                const itemTotal = quantity * price;
-                row.querySelector('.item-total').value = itemTotal.toFixed(2);
-                subtotal += itemTotal;
+                const total = qty * price;
+                row.querySelector('.total').value = total.toFixed(2);
+                subtotal += total;
             });
 
-            const deliveryCharges = parseFloat(document.getElementById('deliveryCharges').value) || 0;
-            const discountAmount = parseFloat(document.getElementById('discount').value) || 0;
+            const delivery = parseFloat(document.getElementById('delivery').value) || 0;
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
             const paymentMethod = document.getElementById('paymentMethod').value;
             
             let codTax = 0;
-            const codTaxRow = document.getElementById('codTaxRow');
-            
             if (paymentMethod === 'Cash on Delivery') {
-                codTax = (subtotal + deliveryCharges - discountAmount) * 0.04;
-                codTaxRow.style.display = 'flex';
+                codTax = (subtotal + delivery - discount) * 0.04;
+                document.getElementById('codTaxRow').style.display = 'flex';
                 document.getElementById('codTax').textContent = codTax.toFixed(2);
             } else {
-                codTaxRow.style.display = 'none';
+                document.getElementById('codTaxRow').style.display = 'none';
             }
-            
-            const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
-            const total = subtotal + deliveryCharges - discountAmount + codTax;
-            const balanceDue = total - amountPaid;
+
+            const total = subtotal + delivery - discount + codTax;
+            const paid = parseFloat(document.getElementById('paid').value) || 0;
+            const balance = total - paid;
 
             document.getElementById('subtotal').textContent = subtotal.toFixed(2);
-            document.getElementById('total').textContent = total.toFixed(2);
-            document.getElementById('balanceDue').textContent = balanceDue.toFixed(2);
+            document.getElementById('totalAmount').textContent = total.toFixed(2);
+            document.getElementById('balance').textContent = balance.toFixed(2);
         }
 
-        function generatePDF() {
+        // Print invoice
+        function printInvoice() {
             window.print();
         }
 
-        calculateTotal();
+        // Initialize
+        attachCalculators();
+        calculate();
     </script>
 </body>
 </html>
