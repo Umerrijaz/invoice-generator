@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Invoice Generator - Mobile Friendly</title>
     <style>
         * {
@@ -22,6 +22,28 @@
             padding: 10px;
             max-width: 210mm;
             margin: 0 auto;
+            -webkit-text-size-adjust: 100%; /* Prevent font scaling on iOS */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Prevent zoom on input focus for mobile */
+        @media screen and (max-width: 599px) {
+            input, select, textarea {
+                font-size: 16px !important; /* 16px prevents iOS zoom */
+            }
+            
+            /* Better mobile spacing */
+            .terms-section h5 {
+                margin-top: 12px;
+            }
+            
+            .terms-section li {
+                margin-bottom: 5px;
+            }
+            
+            .container {
+                padding: 16px;
+            }
         }
 
         .container {
@@ -37,8 +59,8 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
             border-bottom: 3px solid #2c3e50;
             gap: 15px;
         }
@@ -137,8 +159,8 @@
         .input-section {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
-            margin-bottom: 15px;
+            gap: 14px;
+            margin-bottom: 18px;
         }
 
         .input-group {
@@ -147,7 +169,7 @@
 
         .input-group label {
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             color: #2c3e50;
             font-weight: 600;
             font-size: 13px;
@@ -156,12 +178,13 @@
         .input-group input,
         .input-group select {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 13px;
+            font-size: 16px; /* Prevent zoom on iOS */
             background: white;
-            transition: border-color 0.2s ease;
+            transition: none; /* Remove transitions that cause jitter */
+            -webkit-tap-highlight-color: transparent;
         }
 
         .input-group input:focus,
@@ -170,27 +193,47 @@
             border-color: #3498db;
         }
 
-        /* Better select dropdown styling */
+        /* Mobile-optimized select dropdown */
         .input-group select {
             cursor: pointer;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 8px center;
-            background-size: 16px;
-            padding-right: 32px;
+            /* Use native dropdown on mobile for better UX */
+            appearance: auto;
+            -webkit-appearance: menulist;
+            -moz-appearance: menulist;
+            height: 42px; /* Fixed height prevents jitter */
+            line-height: normal;
+            touch-action: manipulation;
+        }
+
+        /* Desktop-only custom styling */
+        @media (min-width: 600px) {
+            .input-group select {
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+                background-repeat: no-repeat;
+                background-position: right 8px center;
+                background-size: 16px;
+                padding-right: 32px;
+            }
+            
+            .input-group input,
+            .input-group select {
+                font-size: 13px;
+                padding: 8px;
+            }
         }
 
         .products-section {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         .products-section h3 {
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 16px;
+            font-weight: 700;
         }
 
         .table-container {
@@ -271,21 +314,22 @@
         }
 
         .summary {
-            margin-top: 15px;
+            margin-top: 18px;
         }
 
         .summary-box {
             width: 100%;
             background: #ecf0f1;
-            padding: 12px;
+            padding: 14px;
             border-radius: 4px;
+            border: 1px solid #d5dbdb;
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-size: 13px;
             gap: 10px;
         }
@@ -293,6 +337,8 @@
         .summary-row-label {
             flex: 1;
             text-align: left;
+            color: #34495e;
+            font-weight: 500;
         }
 
         .summary-row-value {
@@ -302,97 +348,114 @@
             align-items: center;
             justify-content: flex-end;
             gap: 5px;
+            color: #2c3e50;
+            font-weight: 500;
         }
 
         .summary-row input {
             width: 90px;
             text-align: right;
-            padding: 5px 6px;
-            border: 1px solid #ddd;
+            padding: 6px 8px;
+            border: 1px solid #bdc3c7;
             border-radius: 4px;
             font-size: 13px;
+            font-weight: 500;
         }
 
         .summary-row.total {
             border-top: 2px solid #2c3e50;
-            padding-top: 10px;
-            margin-top: 10px;
-            font-size: 15px;
+            padding-top: 12px;
+            margin-top: 12px;
+            margin-bottom: 10px;
+            font-size: 16px;
             font-weight: bold;
             color: #2c3e50;
         }
 
         .summary-row.balance-due {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: bold;
             color: #e74c3c;
             background: #ffe5e5;
-            padding: 8px;
-            margin: 8px -12px -12px -12px;
+            padding: 10px;
+            margin: 10px -14px -14px -14px;
             border-radius: 0 0 4px 4px;
         }
 
         .note-section {
-            margin-top: 15px;
-            padding: 10px;
+            margin-top: 18px;
+            padding: 12px;
             background: #fff3cd;
             border-left: 4px solid #ffc107;
             border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .note-section h4 {
             color: #856404;
-            margin-bottom: 5px;
-            font-size: 12px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 700;
         }
 
         .note-section p {
             color: #856404;
             font-size: 11px;
-            line-height: 1.4;
+            line-height: 1.6;
         }
 
         .terms-section {
-            margin-top: 15px;
-            padding: 12px;
+            margin-top: 18px;
+            padding: 14px;
             background: #f8f9fa;
             border-radius: 4px;
+            border: 1px solid #e9ecef;
         }
 
         .terms-section h4 {
             color: #495057;
-            margin-bottom: 8px;
-            font-size: 13px;
-            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 6px;
         }
 
         .terms-section h5 {
-            color: #6c757d;
-            margin-top: 8px;
-            margin-bottom: 4px;
+            color: #495057;
+            margin-top: 10px;
+            margin-bottom: 5px;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .terms-section p,
         .terms-section ul {
-            color: #868e96;
+            color: #6c757d;
             font-size: 10px;
-            line-height: 1.4;
-            margin-bottom: 4px;
+            line-height: 1.6;
+            margin-bottom: 6px;
         }
 
         .terms-section ul {
-            margin-left: 16px;
-            margin-top: 3px;
+            margin-left: 18px;
+            margin-top: 4px;
+            padding-left: 4px;
         }
 
         .terms-section li {
-            margin-bottom: 2px;
+            margin-bottom: 4px;
+            padding-left: 2px;
+        }
+        
+        .terms-section li:last-child {
+            margin-bottom: 0;
         }
 
         .actions {
-            margin-top: 15px;
+            margin-top: 20px;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -966,29 +1029,35 @@
         }
 
         function generatePDF() {
-            // Enhanced cleanup before printing
-            const selectors = [
+            // Create a more aggressive cleanup for mobile
+            const hideSelectors = [
                 'footer', '.footer', '[class*="footer"]', '[id*="footer"]',
                 '[class*="github"]', '[id*="github"]', 
                 '[class*="badge"]', '[id*="badge"]',
-                'a[href*="github"]', 'a[href*="badge"]',
+                'a[href*="github"]', 'a[href*="badge"]', 'a[href*="fork"]',
                 '[class*="corner"]', '[id*="corner"]',
-                'iframe', '[class*="watermark"]', '[id*="watermark"]'
+                'iframe', '[class*="watermark"]', '[id*="watermark"]',
+                'nav', '.nav', 'header:not(.header)', '.navigation'
             ];
             
-            selectors.forEach(selector => {
+            // First pass: hide by selector
+            hideSelectors.forEach(selector => {
                 try {
                     const elements = document.querySelectorAll(selector);
                     elements.forEach(el => {
-                        if (el && el.parentNode && !el.closest('.container')) {
-                            el.style.display = 'none';
-                            el.style.visibility = 'hidden';
-                            el.style.position = 'absolute';
-                            el.style.left = '-9999px';
+                        if (el && !el.closest('.container')) {
+                            el.remove(); // Actually remove it from DOM
                         }
                     });
                 } catch (e) {
-                    // Ignore errors for invalid selectors
+                    console.log('Selector error:', selector);
+                }
+            });
+            
+            // Second pass: hide all links outside container
+            document.querySelectorAll('a').forEach(link => {
+                if (!link.closest('.container')) {
+                    link.remove();
                 }
             });
             
@@ -997,10 +1066,7 @@
             const bodyChildren = Array.from(document.body.children);
             bodyChildren.forEach(child => {
                 if (child !== container && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
-                    child.style.display = 'none';
-                    child.style.visibility = 'hidden';
-                    child.style.position = 'absolute';
-                    child.style.left = '-9999px';
+                    child.remove(); // Remove from DOM entirely
                 }
             });
             
@@ -1008,19 +1074,9 @@
             container.style.display = 'block';
             container.style.visibility = 'visible';
             
-            // Print
-            window.print();
-            
-            // Restore visibility after print
+            // Add a slight delay for mobile browsers
             setTimeout(() => {
-                bodyChildren.forEach(child => {
-                    if (child !== container && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
-                        child.style.display = '';
-                        child.style.visibility = '';
-                        child.style.position = '';
-                        child.style.left = '';
-                    }
-                });
+                window.print();
             }, 100);
         }
 
