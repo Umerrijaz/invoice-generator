@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Invoice Generator - Mobile Friendly</title>
+    <title>Invoice Generator</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
         
         @page {
             size: A4;
-            margin: 15mm;
+            margin: 12mm;
         }
 
         body {
@@ -22,17 +22,16 @@
             padding: 10px;
             max-width: 210mm;
             margin: 0 auto;
-            -webkit-text-size-adjust: 100%; /* Prevent font scaling on iOS */
+            -webkit-text-size-adjust: 100%;
             -webkit-tap-highlight-color: transparent;
         }
 
         /* Prevent zoom on input focus for mobile */
         @media screen and (max-width: 599px) {
             input, select, textarea {
-                font-size: 16px !important; /* 16px prevents iOS zoom */
+                font-size: 16px !important;
             }
             
-            /* Better mobile spacing */
             .terms-section h5 {
                 margin-top: 12px;
             }
@@ -181,10 +180,10 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 16px; /* Prevent zoom on iOS */
+            font-size: 16px;
             background: white;
             -webkit-tap-highlight-color: transparent;
-            transform: translateZ(0); /* Force GPU acceleration */
+            transform: translateZ(0);
             backface-visibility: hidden;
             perspective: 1000px;
         }
@@ -195,49 +194,23 @@
             border-color: #3498db;
         }
 
-        /* Mobile-optimized select dropdown - prevent flashing */
         .input-group select {
             cursor: pointer;
-            /* Use native dropdown on mobile for smooth experience */
             appearance: auto;
             -webkit-appearance: menulist;
             -moz-appearance: menulist;
-            height: 44px; /* Fixed height prevents layout shift */
+            height: 44px;
             line-height: 44px;
             touch-action: manipulation;
             will-change: auto;
-            /* Prevent flashing/repainting */
             -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
         }
         
-        /* Prevent the dropdown menu from causing flashes */
         .input-group select option {
             background: white;
             color: #2c3e50;
             padding: 10px;
-        }
-
-        /* Desktop-only custom styling */
-        @media (min-width: 600px) {
-            .input-group select {
-                appearance: none;
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-                background-repeat: no-repeat;
-                background-position: right 8px center;
-                background-size: 16px;
-                padding-right: 32px;
-                height: auto;
-                line-height: normal;
-            }
-            
-            .input-group input,
-            .input-group select {
-                font-size: 13px;
-                padding: 8px;
-            }
         }
 
         .products-section {
@@ -513,21 +486,45 @@
                 min-width: 200px;
                 margin-top: 0;
             }
+            
+            .input-group select {
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+                background-repeat: no-repeat;
+                background-position: right 8px center;
+                background-size: 16px;
+                padding-right: 32px;
+                height: auto;
+                line-height: normal;
+            }
+            
+            .input-group input,
+            .input-group select {
+                font-size: 13px;
+                padding: 8px;
+            }
         }
 
         @media print {
             @page {
                 size: A4;
-                margin: 6mm;
+                margin: 10mm;
+            }
+            
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
             }
             
             html, body {
                 background: white !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                width: 100% !important;
-                max-width: none !important;
-                height: auto !important;
+                width: 210mm !important;
+                height: 297mm !important;
             }
             
             body {
@@ -535,68 +532,21 @@
                 -webkit-print-color-adjust: exact;
             }
             
-            /* ULTRA CRITICAL: Hide EVERYTHING except the invoice container */
-            body > *:not(.container) {
-                display: none !important;
-                visibility: hidden !important;
-                position: absolute !important;
-                left: -9999px !important;
-                height: 0 !important;
-                width: 0 !important;
-                overflow: hidden !important;
-                opacity: 0 !important;
-            }
-            
             .container {
                 box-shadow: none !important;
                 padding: 0 !important;
-                max-width: none !important;
+                max-width: 100% !important;
                 margin: 0 !important;
+                width: 100% !important;
                 page-break-after: avoid !important;
                 page-break-inside: avoid !important;
-                display: block !important;
-                visibility: visible !important;
             }
             
             /* Hide all buttons and interactive elements */
-            .actions, .btn-add, .btn-remove, .logo-placeholder, .logo-upload,
+            .actions, .btn-add, .btn-remove, 
             button, input[type="file"], #uploadBtn {
                 display: none !important;
                 visibility: hidden !important;
-            }
-            
-            /* NUCLEAR OPTION: Hide any external content that might sneak in */
-            a[href*="github"],
-            a[href*="badge"],
-            a[href*="fork"],
-            footer,
-            .footer,
-            #footer,
-            [class*="footer"],
-            [id*="footer"],
-            [class*="github"],
-            [class*="badge"],
-            [id*="github"],
-            [id*="badge"],
-            [id*="corner"],
-            [class*="corner"],
-            .github-corner,
-            #github-corner,
-            script,
-            noscript,
-            iframe,
-            [class*="watermark"],
-            [id*="watermark"] {
-                display: none !important;
-                visibility: hidden !important;
-                position: absolute !important;
-                left: -9999px !important;
-                width: 0 !important;
-                height: 0 !important;
-                overflow: hidden !important;
-                opacity: 0 !important;
-                clip: rect(0,0,0,0) !important;
-                clip-path: inset(100%) !important;
             }
             
             /* Make inputs look like regular text */
@@ -617,189 +567,167 @@
                 overflow: visible;
             }
             
-            /* Better spacing for print while keeping on one page */
+            /* LARGER sizes for print to fill A4 properly */
             .header {
-                margin-bottom: 6mm;
-                padding-bottom: 3mm;
+                margin-bottom: 8mm;
+                padding-bottom: 4mm;
                 page-break-inside: avoid;
             }
             
-            .invoice-title {
-                min-width: auto;
-            }
-            
             .invoice-title h2 {
-                font-size: 18px;
-                margin-bottom: 2mm;
+                font-size: 22px;
+                margin-bottom: 3mm;
             }
             
             .invoice-title .date-container {
-                font-size: 10px;
+                font-size: 11px;
             }
             
             .invoice-title .date-label {
-                font-size: 10px;
+                font-size: 11px;
             }
             
             .invoice-title input[type="date"] {
-                font-size: 10px;
-                padding: 0 !important;
+                font-size: 11px;
             }
             
             .logo {
-                width: 45px;
-                height: 45px;
-                font-size: 16px;
-                border-radius: 50%;
-                padding: 5px;
-            }
-            
-            .logo img {
-                object-fit: contain;
-                object-position: center;
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+                padding: 6px;
             }
             
             .company-info h1 {
-                font-size: 14px;
-                margin-bottom: 1.5mm;
+                font-size: 16px;
+                margin-bottom: 2mm;
             }
             
             .company-info p {
-                font-size: 9px;
-                line-height: 1.3;
+                font-size: 11px;
+                line-height: 1.4;
             }
             
             .input-section {
-                margin-bottom: 4mm;
-                gap: 2mm;
-            }
-            
-            .input-group {
-                margin-bottom: 0;
+                margin-bottom: 6mm;
+                gap: 3mm;
             }
             
             .input-group label {
-                font-size: 9px;
-                margin-bottom: 1mm;
+                font-size: 11px;
+                margin-bottom: 1.5mm;
                 font-weight: 600;
             }
             
             .input-group input, .input-group select {
-                font-size: 9px;
-                padding: 0 !important;
+                font-size: 11px;
             }
             
             .products-section {
-                margin-bottom: 4mm;
+                margin-bottom: 6mm;
             }
             
             .products-section h3 {
-                font-size: 12px;
-                margin-bottom: 2mm;
+                font-size: 14px;
+                margin-bottom: 3mm;
                 font-weight: 700;
             }
             
             th {
-                padding: 2mm 1.5mm;
-                font-size: 9px;
+                padding: 3mm 2mm;
+                font-size: 11px;
             }
             
             td {
-                padding: 1.5mm 1.5mm;
-                font-size: 9px;
+                padding: 2.5mm 2mm;
+                font-size: 11px;
             }
             
             td input {
-                font-size: 9px;
-                padding: 0 !important;
+                font-size: 11px;
             }
             
             .summary {
-                margin-top: 4mm;
+                margin-top: 6mm;
             }
             
             .summary-box {
-                padding: 3mm;
+                padding: 4mm;
             }
             
             .summary-row {
-                font-size: 9px;
-                margin-bottom: 1.5mm;
+                font-size: 11px;
+                margin-bottom: 2.5mm;
             }
             
             .summary-row input {
-                font-size: 9px;
-                padding: 0 !important;
-                width: 60px;
+                font-size: 11px;
+                width: 70px;
             }
             
             .summary-row.total {
-                font-size: 11px;
-                padding-top: 2mm;
-                margin-top: 2mm;
+                font-size: 13px;
+                padding-top: 3mm;
+                margin-top: 3mm;
                 font-weight: bold;
             }
             
             .summary-row.balance-due {
-                font-size: 11px;
-                padding: 2mm;
-                margin: 2mm -3mm -3mm -3mm;
+                font-size: 13px;
+                padding: 3mm;
+                margin: 3mm -4mm -4mm -4mm;
                 font-weight: bold;
             }
             
             .note-section {
-                margin-top: 4mm;
-                padding: 3mm;
+                margin-top: 6mm;
+                padding: 4mm;
             }
             
             .note-section h4 {
-                font-size: 9px;
-                margin-bottom: 1.5mm;
+                font-size: 11px;
+                margin-bottom: 2mm;
                 font-weight: 700;
             }
             
             .note-section p {
-                font-size: 8px;
-                line-height: 1.4;
+                font-size: 10px;
+                line-height: 1.5;
             }
             
             .terms-section {
-                margin-top: 4mm;
-                padding: 3mm;
+                margin-top: 6mm;
+                padding: 4mm;
             }
             
             .terms-section h4 {
-                font-size: 10px;
-                margin-bottom: 2mm;
+                font-size: 12px;
+                margin-bottom: 3mm;
                 font-weight: 700;
-                padding-bottom: 1mm;
+                padding-bottom: 2mm;
             }
             
             .terms-section h5 {
-                font-size: 8px;
-                margin-top: 2mm;
-                margin-bottom: 1mm;
+                font-size: 10px;
+                margin-top: 3mm;
+                margin-bottom: 1.5mm;
                 font-weight: 700;
             }
             
             .terms-section p,
             .terms-section ul {
-                font-size: 7.5px;
-                line-height: 1.5;
-                margin-bottom: 1mm;
+                font-size: 9px;
+                line-height: 1.6;
+                margin-bottom: 1.5mm;
             }
             
             .terms-section ul {
-                margin-left: 12px;
-                margin-top: 1mm;
+                margin-left: 14px;
+                margin-top: 1.5mm;
             }
             
             .terms-section li {
-                margin-bottom: 1mm;
-            }
-            
-            .terms-section li:last-child {
-                margin-bottom: 0;
+                margin-bottom: 1.5mm;
             }
         }
     </style>
@@ -959,36 +887,29 @@
     </div>
     
     <script>
-        // Set today's date in the date input
+        // Set today's date
         const today = new Date();
         const dateStr = today.toISOString().split('T')[0];
         document.getElementById('invoiceDate').value = dateStr;
 
-        // Logo upload functionality
+        // Logo upload
         document.getElementById('logoUpload').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file && file.type.startsWith('image/')) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     const base64 = event.target.result;
-                    
-                    // Update the logo display
                     const logoContainer = document.getElementById('logoContainer');
                     logoContainer.innerHTML = `<img src="${base64}" alt="Shop Turkey Logo" style="width:100%;height:100%;object-fit:contain;">`;
-                    
-                    // Hide upload button
                     document.getElementById('uploadBtn').style.display = 'none';
-                    
-                    // Save to localStorage
                     localStorage.setItem('shopTurkeyLogoBase64', base64);
-                    
-                    alert('Logo uploaded successfully! It will be saved for future use.');
+                    alert('Logo uploaded successfully!');
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        // Load saved logo on page load
+        // Load saved logo
         window.addEventListener('DOMContentLoaded', function() {
             const savedLogo = localStorage.getItem('shopTurkeyLogoBase64');
             if (savedLogo) {
@@ -1056,55 +977,7 @@
         }
 
         function generatePDF() {
-            // Create a more aggressive cleanup for mobile
-            const hideSelectors = [
-                'footer', '.footer', '[class*="footer"]', '[id*="footer"]',
-                '[class*="github"]', '[id*="github"]', 
-                '[class*="badge"]', '[id*="badge"]',
-                'a[href*="github"]', 'a[href*="badge"]', 'a[href*="fork"]',
-                '[class*="corner"]', '[id*="corner"]',
-                'iframe', '[class*="watermark"]', '[id*="watermark"]',
-                'nav', '.nav', 'header:not(.header)', '.navigation'
-            ];
-            
-            // First pass: hide by selector
-            hideSelectors.forEach(selector => {
-                try {
-                    const elements = document.querySelectorAll(selector);
-                    elements.forEach(el => {
-                        if (el && !el.closest('.container')) {
-                            el.remove(); // Actually remove it from DOM
-                        }
-                    });
-                } catch (e) {
-                    console.log('Selector error:', selector);
-                }
-            });
-            
-            // Second pass: hide all links outside container
-            document.querySelectorAll('a').forEach(link => {
-                if (!link.closest('.container')) {
-                    link.remove();
-                }
-            });
-            
-            // Hide everything except the container
-            const container = document.getElementById('invoice');
-            const bodyChildren = Array.from(document.body.children);
-            bodyChildren.forEach(child => {
-                if (child !== container && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
-                    child.remove(); // Remove from DOM entirely
-                }
-            });
-            
-            // Ensure container is visible
-            container.style.display = 'block';
-            container.style.visibility = 'visible';
-            
-            // Add a slight delay for mobile browsers
-            setTimeout(() => {
-                window.print();
-            }, 100);
+            window.print();
         }
 
         calculateTotal();
