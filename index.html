@@ -161,6 +161,26 @@
             border-radius: 4px;
             font-size: 13px;
             background: white;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        /* Better select dropdown styling */
+        .input-group select {
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+            padding-right: 32px;
         }
 
         .products-section {
@@ -437,14 +457,16 @@
                 -webkit-print-color-adjust: exact;
             }
             
-            /* CRITICAL: Hide everything after the invoice container */
+            /* ULTRA CRITICAL: Hide EVERYTHING except the invoice container */
             body > *:not(.container) {
                 display: none !important;
                 visibility: hidden !important;
                 position: absolute !important;
                 left: -9999px !important;
                 height: 0 !important;
+                width: 0 !important;
                 overflow: hidden !important;
+                opacity: 0 !important;
             }
             
             .container {
@@ -454,6 +476,8 @@
                 margin: 0 !important;
                 page-break-after: avoid !important;
                 page-break-inside: avoid !important;
+                display: block !important;
+                visibility: visible !important;
             }
             
             /* Hide all buttons and interactive elements */
@@ -463,9 +487,10 @@
                 visibility: hidden !important;
             }
             
-            /* NUCLEAR OPTION: Hide any links, footers, badges, scripts */
+            /* NUCLEAR OPTION: Hide any external content that might sneak in */
             a[href*="github"],
             a[href*="badge"],
+            a[href*="fork"],
             footer,
             .footer,
             #footer,
@@ -475,10 +500,15 @@
             [class*="badge"],
             [id*="github"],
             [id*="badge"],
+            [id*="corner"],
+            [class*="corner"],
             .github-corner,
             #github-corner,
             script,
-            noscript {
+            noscript,
+            iframe,
+            [class*="watermark"],
+            [id*="watermark"] {
                 display: none !important;
                 visibility: hidden !important;
                 position: absolute !important;
@@ -487,6 +517,8 @@
                 height: 0 !important;
                 overflow: hidden !important;
                 opacity: 0 !important;
+                clip: rect(0,0,0,0) !important;
+                clip-path: inset(100%) !important;
             }
             
             /* Make inputs look like regular text */
@@ -934,24 +966,62 @@
         }
 
         function generatePDF() {
-            // Remove any footer or unwanted elements before printing
-            const unwantedElements = document.querySelectorAll('footer, .footer, [class*="footer"], [id*="footer"], [class*="github"], [id*="github"], [class*="badge"], [id*="badge"], a[href*="github"]');
-            unwantedElements.forEach(el => {
-                if (el && el.parentNode) {
-                    el.parentNode.removeChild(el);
+            // Enhanced cleanup before printing
+            const selectors = [
+                'footer', '.footer', '[class*="footer"]', '[id*="footer"]',
+                '[class*="github"]', '[id*="github"]', 
+                '[class*="badge"]', '[id*="badge"]',
+                'a[href*="github"]', 'a[href*="badge"]',
+                '[class*="corner"]', '[id*="corner"]',
+                'iframe', '[class*="watermark"]', '[id*="watermark"]'
+            ];
+            
+            selectors.forEach(selector => {
+                try {
+                    const elements = document.querySelectorAll(selector);
+                    elements.forEach(el => {
+                        if (el && el.parentNode && !el.closest('.container')) {
+                            el.style.display = 'none';
+                            el.style.visibility = 'hidden';
+                            el.style.position = 'absolute';
+                            el.style.left = '-9999px';
+                        }
+                    });
+                } catch (e) {
+                    // Ignore errors for invalid selectors
                 }
             });
             
-            // Also remove any elements outside the container
+            // Hide everything except the container
             const container = document.getElementById('invoice');
             const bodyChildren = Array.from(document.body.children);
             bodyChildren.forEach(child => {
                 if (child !== container && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
                     child.style.display = 'none';
+                    child.style.visibility = 'hidden';
+                    child.style.position = 'absolute';
+                    child.style.left = '-9999px';
                 }
             });
             
+            // Ensure container is visible
+            container.style.display = 'block';
+            container.style.visibility = 'visible';
+            
+            // Print
             window.print();
+            
+            // Restore visibility after print
+            setTimeout(() => {
+                bodyChildren.forEach(child => {
+                    if (child !== container && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+                        child.style.display = '';
+                        child.style.visibility = '';
+                        child.style.position = '';
+                        child.style.left = '';
+                    }
+                });
+            }, 100);
         }
 
         calculateTotal();
